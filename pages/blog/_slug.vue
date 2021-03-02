@@ -26,11 +26,14 @@
         </b-col>
       </b-row>
 
-      <b-row class="justify-content-center my-5">
-        <b-col>
-          <pre class="bg-secondary text-white rounded">{{ blogpost }}</pre>
-        </b-col>
+      <b-row class="justify-content-center text-center my-5">
+                  <b-col md="10" lg="8" class="justify-content-between d-flex">
+            <prev-next :prev="prev" />
+            
+            <prev-next :next="next" />
+                  </b-col>
       </b-row>
+
     </b-container>
   </article>
 </template>
@@ -42,7 +45,17 @@ export default {
   async asyncData({ $content, params }) {
     const blogpost = await $content('blog', params.slug).fetch();
 
-    return { blogpost };
+    const [prev, next] = await $content('blog')
+      .only(['title', 'slug'])
+      .sortBy('createdAt', 'asc')
+      .surround(params.slug)
+      .fetch()
+
+    return { 
+      blogpost,
+      prev,
+      next
+    };
   },
   methods: {
     formatDate(date) {
