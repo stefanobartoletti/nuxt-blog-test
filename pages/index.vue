@@ -1,6 +1,7 @@
 <template>
-  <div class="container">
-    <div>
+  <b-container>
+    <b-row>
+      <b-col class="text-center">
       <Logo />
       <h1 class="title">
         nuxt-blog-test
@@ -23,23 +24,44 @@
           GitHub
         </a>
       </div>
-    </div>
-  </div>
+      </b-col>
+    </b-row>
+
+    <b-row>
+
+      <b-col md="4" lg="3" v-for="blogpost of blogposts" :key="blogpost.slug">
+
+        <NuxtLink :to="{ name: 'blog-slug', params: { slug: blogpost.slug } }">
+          <img :src="blogpost.img" />
+          <div>
+            <h2>{{ blogpost.title }}</h2>
+            <p>{{ blogpost.description }}</p>
+          </div>
+        </NuxtLink>
+
+      </b-col>
+
+    </b-row>
+  </b-container>
 </template>
 
+
 <script>
-export default {}
+  export default {
+    async asyncData({ $content, params }) {
+      const blogposts = await $content('blog')
+        .only(['title', 'description', 'img', 'slug'])
+        .sortBy('createdAt', 'asc')
+        .fetch()
+
+      return {
+        blogposts
+      }
+    }
+  }
 </script>
 
 <style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
 
 .title {
   font-family:

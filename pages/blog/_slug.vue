@@ -3,12 +3,7 @@
     <b-container>
       <b-row class="justify-content-center my-5">
         <b-col md="10" lg="8">
-          <b-img
-            fluid
-            rounded
-            :src="require(`~/assets/img/${blogpost.img}`)"
-            :alt="blogpost.alt"
-          />
+          <b-img fluid rounded :src="require(`~/assets/img/${blogpost.img}`)" :alt="blogpost.alt" />
         </b-col>
       </b-row>
 
@@ -27,11 +22,11 @@
       </b-row>
 
       <b-row class="justify-content-center text-center my-5">
-                  <b-col md="10" lg="8" class="justify-content-between d-flex">
-            <prev-next :prev="prev" />
-            
-            <prev-next :next="next" />
-                  </b-col>
+        <b-col md="10" lg="8" class="justify-content-between d-flex">
+          <prev-next :prev="prev" />
+
+          <prev-next :next="next" />
+        </b-col>
       </b-row>
 
     </b-container>
@@ -41,29 +36,37 @@
 
 
 <script>
-export default {
-  async asyncData({ $content, params }) {
-    const blogpost = await $content('blog', params.slug).fetch();
+  export default {
+    async asyncData({
+      $content,
+      params
+    }) {
+      const blogpost = await $content('blog', params.slug).fetch();
 
-    const [prev, next] = await $content('blog')
-      .only(['title', 'slug'])
-      .sortBy('createdAt', 'asc')
-      .surround(params.slug)
-      .fetch()
+      const [prev, next] = await $content('blog')
+        .only(['title', 'slug'])
+        .sortBy('createdAt', 'asc')
+        .surround(params.slug)
+        .fetch()
 
-    return { 
-      blogpost,
-      prev,
-      next
-    };
-  },
-  methods: {
-    formatDate(date) {
-      const options = { year: 'numeric', month: 'long', day: 'numeric' };
-      return new Date(date).toLocaleDateString('en', options);
+      return {
+        blogpost,
+        prev,
+        next
+      };
     },
-  },
-};
+    methods: {
+      formatDate(date) {
+        const options = {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        };
+        return new Date(date).toLocaleDateString('en', options);
+      },
+    },
+  };
+
 </script>
 
 <style>
