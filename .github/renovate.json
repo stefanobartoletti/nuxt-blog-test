@@ -4,5 +4,9 @@
     "config:recommended"
   ],
   "bumpVersion": "patch",
-  "labels": ["dependencies"]
+  "labels": ["dependencies"],
+  "vulnerabilityAlerts": {
+    "labels": ["security"],
+    "enabled": true
+  }
 }
