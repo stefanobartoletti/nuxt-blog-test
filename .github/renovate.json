@@ -4,6 +4,7 @@
     "config:recommended"
   ],
   "bumpVersion": "patch",
+  "rangeStrategy": "bump",
   "labels": ["dependencies"],
   "vulnerabilityAlerts": {
     "labels": ["security"],
